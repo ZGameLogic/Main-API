@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.LinkedList;
 
 @RestController("github")
-@PropertySource("file:api.properties")
+@PropertySource("file:application.properties")
 public class GithubController {
 
     @Value("${github.token}")
