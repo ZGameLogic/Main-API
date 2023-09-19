@@ -9,7 +9,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@SpringBootApplication(scanBasePackages = "com.zgamelogic.controllers")
+@SpringBootApplication(scanBasePackages = {
+        "com.zgamelogic.controllers",
+        "com.zgamelogic.services"
+})
 @EnableJpaRepositories("com.zgamelogic.data.database")
 @EntityScan("com.zgamelogic.data.database")
 @EnableScheduling
