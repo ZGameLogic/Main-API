@@ -21,6 +21,6 @@ jobs:
       - name: Remove old jar
         run: del C:\Users\Ben\Desktop\services\API\API.jar
       - name: Deploy jar
-        run: move C:\Users\Ben\Desktop\actions-runner\_work\API\API\target\API-*.jar C:\Users\Ben\Desktop\services\API\API.jar
+        run: move C:\Git\_work\Main-API\Main-API\target\API-*.jar C:\Users\Ben\Desktop\services\API\API.jar
       - name: Start service
         run: net start API
