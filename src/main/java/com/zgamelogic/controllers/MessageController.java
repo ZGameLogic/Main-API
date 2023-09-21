@@ -14,11 +14,9 @@ public class MessageController {
     private SuccessMessage sendMessage(@RequestBody Message message){
         MailService.sendEmail(
                 "ben@zgamelogic.com",
-                "A message was sent to you from zgamelogic.com",
+                "A message was sent to you from zgamelogic.com by " + message.getName(),
                 message.getMessage() + "\nReply to this message: " + message.getEmail()
         );
         return new SuccessMessage(true, "");
     }
-
-
 }
