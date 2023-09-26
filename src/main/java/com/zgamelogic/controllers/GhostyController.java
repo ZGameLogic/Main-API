@@ -91,6 +91,31 @@ public class GhostyController {
     }
 
     /**
+     * @return JSONArray of ghosts JSONObjects
+     */
+    @GetMapping("Ghosts3")
+    public ResponseEntity<String> getAllGhostsV3() {
+        try {
+            JSONArray ghostsArray = new JSONArray();
+            for(Ghost current : ghosts.findAll()) {
+                JSONObject ghost = new JSONObject();
+                JSONArray evidenceArray = new JSONArray();
+                for(String e : current.getEvidence().split(",")) {
+                    evidenceArray.put(e);
+                }
+                ghost.put("evidence", evidenceArray);
+                ghost.put("name", current.getName());
+                ghost.put("description", current.getDescription());
+                ghost.put("id", current.getId());
+                ghostsArray.put(ghost);
+            }
+            return ResponseEntity.ok(ghostsArray.toString());
+        } catch (JSONException e) {
+            return ResponseEntity.ok("Invalid JSON format");
+        }
+    }
+
+    /**
      * @return JSONArray of Aspect JSONObjects
      */
     @GetMapping("Aspects")
@@ -104,6 +129,25 @@ public class GhostyController {
             }
             returnBody.put("aspects", aspectsArray);
             return ResponseEntity.ok(returnBody.toString());
+        } catch (JSONException e) {
+            return ResponseEntity.ok("Invalid JSON format");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * @return JSONArray of Aspect JSONObjects
+     */
+    @GetMapping("Aspects3")
+    public ResponseEntity<String> getAllAspectsV2() {
+        try {
+            JSONArray aspectsArray = new JSONArray();
+            ObjectMapper om = new ObjectMapper();
+            for(Aspect current : aspects.findAll()) {
+                aspectsArray.put(om.writeValueAsString(current));
+            }
+            return ResponseEntity.ok(aspectsArray.toString());
         } catch (JSONException e) {
             return ResponseEntity.ok("Invalid JSON format");
         } catch (JsonProcessingException e) {
@@ -155,6 +199,29 @@ public class GhostyController {
 
             returnBody.put("evidence", ghostsArray);
             return ResponseEntity.ok(returnBody.toString());
+        } catch (JSONException e) {
+            return ResponseEntity.ok("Invalid JSON format");
+        }
+    }
+
+    /**
+     * @return A list of evidence
+     */
+    @GetMapping("Evidence2")
+    public ResponseEntity<String> getAllEvidenceV3() {
+        try {
+            Set<String> types = new HashSet<String>();
+
+            for(Ghost current : ghosts.findAll()) {
+                for(String x : current.getEvidence().split(",")) {
+                    if(!x.equals("")) {
+                        types.add(x);
+                    }
+                }
+            }
+
+            JSONArray ghostsArray = new JSONArray(types);
+            return ResponseEntity.ok(ghostsArray.toString());
         } catch (JSONException e) {
             return ResponseEntity.ok("Invalid JSON format");
         }
