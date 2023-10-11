@@ -31,7 +31,11 @@ public abstract class GithubService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + githubToken);
-        ResponseEntity<GithubCommit[]> response = restTemplate.exchange(url, HttpMethod.GET,  new HttpEntity<>(headers), GithubCommit[].class);
-        return new LinkedList<>(Arrays.asList(response.getBody()));
+        try {
+            ResponseEntity<GithubCommit[]> response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), GithubCommit[].class);
+            return new LinkedList<>(Arrays.asList(response.getBody()));
+        } catch (Exception e){
+            return new LinkedList<>();
+        }
     }
 }
