@@ -1,6 +1,8 @@
 package com.zgamelogic.controllers;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,6 +11,7 @@ import com.zgamelogic.data.database.ghosty.aspect.Aspect;
 import com.zgamelogic.data.database.ghosty.aspect.AspectRepository;
 import com.zgamelogic.data.database.ghosty.ghost.Ghost;
 import com.zgamelogic.data.database.ghosty.ghost.GhostRepository;
+import com.zgamelogic.data.generic.Aspects;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,21 +122,9 @@ public class GhostyController {
      * @return JSONArray of Aspect JSONObjects
      */
     @GetMapping("Aspects")
-    public ResponseEntity<String> getAllAspects() {
-        try {
-            JSONObject returnBody = new JSONObject();
-            JSONArray aspectsArray = new JSONArray();
-            ObjectMapper om = new ObjectMapper();
-            for(Aspect current : aspects.findAll()) {
-                aspectsArray.put(om.writeValueAsString(current));
-            }
-            returnBody.put("aspects", aspectsArray);
-            return ResponseEntity.ok(returnBody.toString());
-        } catch (JSONException e) {
-            return ResponseEntity.ok("Invalid JSON format");
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<Aspects> getAllAspects() {
+        Aspects body = new Aspects(aspects.findAll());
+        return ResponseEntity.ok(body);
     }
 
     /**
