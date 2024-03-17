@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      name: api
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/zgamelogic/main-api:master
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: keystore-volume
+              mountPath: "/etc/keystore"
+              readOnly: true
+            - name: frontend-files-volume
+              mountPath: "/build"
+              readOnly: true
+      volumes:
+        - name: keystore-volume
+          secret:
+            secretName: ssl-keystore-secret
+        - name: frontend-files-volume
+          hostPath:
+            path: /home/Ben/front-end
+            type: Directory
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-secret
+
+      
