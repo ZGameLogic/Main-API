@@ -5,7 +5,6 @@ import com.zgamelogic.data.github.GithubProject;
 import com.zgamelogic.services.GithubService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.LinkedList;
 
 @RestController
-@PropertySource("file:application.properties")
 public class GithubController {
 
     @Value("${github.token}")
