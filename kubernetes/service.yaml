@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: api
+  name: main-api
 spec:
   selector:
-    app: api
+    app: main-api
   ports:
     - protocol: TCP
       port: 443

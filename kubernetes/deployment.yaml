@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api
+  name: main-api
   labels:
-    app: api
+    app: main-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api
+      app: main-api
   template:
     metadata:
-      name: api
+      name: main-api
       labels:
-        app: api
+        app: main-api
     spec:
       containers:
         - name: api
@@ -44,5 +44,5 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-secret
-
-      
+      nodeSelector:
+        kubernetes.io/hostname: master
