@@ -24,7 +24,7 @@ spec:
               mountPath: "/etc/keystore"
               readOnly: true
             - name: frontend-files-volume
-              mountPath: "/build"
+              mountPath: "/front-end"
               readOnly: true
             - name: downloads-volume
               mountPath: "/downloads"

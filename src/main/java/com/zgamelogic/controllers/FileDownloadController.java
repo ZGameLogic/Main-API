@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@Slf4j
 public class FileDownloadController {
 
     private File downloadFolder;
@@ -23,15 +25,20 @@ public class FileDownloadController {
     @PostConstruct
     public void initialize() {
         downloadFolder = new File("downloads");
-        if (!downloadFolder.exists()) {
-            downloadFolder.mkdirs();
+        log.info("Download folder exists: {}", downloadFolder.exists());
+        if(downloadFolder.exists()){
+            for(File f: downloadFolder.listFiles()){
+                log.info(f.getName());
+            }
         }
     }
 
     @GetMapping("/downloads/**")
     public ResponseEntity<Resource> download(HttpServletRequest request){
-        System.out.println(request.getRequestURI());
         String fileName = request.getRequestURI().replaceFirst("/downloads/", "");
+        if(!new File("file:" + downloadFolder + "//" + fileName).exists()){
+            return ResponseEntity.notFound().build();
+        }
         // Load file as Resource
         Resource resource = null;
         try {
