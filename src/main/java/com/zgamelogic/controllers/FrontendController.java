@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FrontendController {
     @GetMapping({
         "/",
-        "/projects"
+        "/projects",
+        "/projects/**"
     })
     private String frontEnd(){
         return "forward:/index.html";
