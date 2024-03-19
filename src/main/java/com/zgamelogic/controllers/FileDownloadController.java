@@ -24,7 +24,7 @@ public class FileDownloadController {
 
     @PostConstruct
     public void initialize() {
-        downloadFolder = new File("downloads");
+        downloadFolder = new File("/downloads");
         log.info("Download folder exists: {}", downloadFolder.exists());
         if(downloadFolder.exists()){
             for(File f: downloadFolder.listFiles()){
