@@ -32,8 +32,7 @@ public class SOTController {
     }
 
     @GetMapping
-    private ResponseEntity<List<SOTDateAvailable>> getSOTData(@RequestHeader(name = "api-key") String apiKey) {
-        if(!apiKey.equals(this.apiKey)) return ResponseEntity.badRequest().build();
+    private ResponseEntity<List<SOTDateAvailable>> getSOTData() {
         return ResponseEntity.ok(sotRepository.findAll());
     }
 }
