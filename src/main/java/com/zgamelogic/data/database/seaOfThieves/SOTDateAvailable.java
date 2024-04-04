@@ -17,5 +17,6 @@ public class SOTDateAvailable {
     private boolean patrick;
     private boolean jj;
     private boolean greg;
+    private boolean success;
     private LocalDateTime proposed;
 }
