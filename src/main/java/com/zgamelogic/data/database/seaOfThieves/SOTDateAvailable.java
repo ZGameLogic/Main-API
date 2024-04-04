@@ -2,7 +2,6 @@ package com.zgamelogic.data.database.seaOfThieves;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -17,5 +16,6 @@ public class SOTDateAvailable {
     private boolean patrick;
     private boolean jj;
     private boolean greg;
+    private boolean success;
     private LocalDateTime proposed;
 }
