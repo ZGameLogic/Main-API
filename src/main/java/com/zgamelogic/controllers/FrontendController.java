@@ -8,7 +8,8 @@ public class FrontendController {
     @GetMapping({
         "/",
         "/projects",
-        "/projects/**"
+        "/projects/**",
+            "/sot"
     })
     private String frontEnd(){
         return "forward:/index.html";
