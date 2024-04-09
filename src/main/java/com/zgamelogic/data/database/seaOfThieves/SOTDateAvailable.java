@@ -1,5 +1,6 @@
 package com.zgamelogic.data.database.seaOfThieves;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,5 +18,6 @@ public class SOTDateAvailable {
     private boolean jj;
     private boolean greg;
     private boolean success;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
     private LocalDateTime proposed;
 }
