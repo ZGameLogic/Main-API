@@ -41,7 +41,13 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
   Kubernetes:
     runs-on: PiServer
-    needs: build
+    needs: [ build ]
     steps:
+      - name: Checkout Kubernetes Directory
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: 'kubernetes/'
+      - name: Apply Kubernetes Configuration
+        run: sudo kubectl apply -f kubernetes/
       - name: Rolling update
         run: sudo kubectl rollout restart deployment main-api
