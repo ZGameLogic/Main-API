@@ -29,6 +29,9 @@ spec:
             - name: downloads-volume
               mountPath: "/downloads"
               readOnly: true
+          env:
+            - name: TZ
+              value: "America/Chicago"
       volumes:
         - name: keystore-volume
           secret:
