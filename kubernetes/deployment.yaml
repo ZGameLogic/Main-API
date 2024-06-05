@@ -38,7 +38,7 @@ spec:
             secretName: ssl-keystore-secret
         - name: frontend-files-volume
           hostPath:
-            path: /front-end
+            path: /home/Ben/front-end
             type: Directory
         - name: downloads-volume
           hostPath:
