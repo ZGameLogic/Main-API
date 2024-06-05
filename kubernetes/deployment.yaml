@@ -38,11 +38,11 @@ spec:
             secretName: ssl-keystore-secret
         - name: frontend-files-volume
           hostPath:
-            path: /home/Ben/front-end
+            path: /home/Ben/front-end/website
             type: Directory
         - name: downloads-volume
           hostPath:
-            path: /home/Ben/downloads
+            path: /home/Ben/front-end/downloads
             type: Directory
       restartPolicy: Always
       imagePullSecrets:
