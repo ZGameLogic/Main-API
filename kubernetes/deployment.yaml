@@ -47,5 +47,3 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-secret
-      nodeSelector:
-        kubernetes.io/hostname: master
