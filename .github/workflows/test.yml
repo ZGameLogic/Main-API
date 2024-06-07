@@ -4,7 +4,7 @@ on:
   push:
 jobs:
   disable-monitor:
-    uses: zgamelogic/data-otter-monitor-active@v1.0.0
+    uses: zgamelogic/data-otter-monitor-active/action.yml@v1.0.0
     with:
       monitorId: 1
       active: false
