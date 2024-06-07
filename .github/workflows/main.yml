@@ -4,9 +4,18 @@ on:
   push:
     branches: [ "master" ]
 jobs:
+  disable-monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: disable monitor
+        uses: zgamelogic/data-otter-monitor-active@v1.0.0
+        with:
+          monitorId: 1
+          active: false
   build:
     permissions: write-all
     runs-on: ubuntu-latest
+    needs: disable-monitor
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -51,3 +60,13 @@ jobs:
         run: sudo kubectl apply -f kubernetes/
       - name: Rolling update
         run: sudo kubectl rollout restart deployment main-api
+  enable-monitor:
+    runs-on: ubuntu-latest
+    needs: [ Kubernetes, build ]
+    steps:
+      - name: enable monitor
+        if: always()
+        uses: zgamelogic/data-otter-monitor-active@v1.0.0
+        with:
+          monitorId: 1
+          active: true
