@@ -40,16 +40,18 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   disable-monitor:
-    uses: zgamelogic/data-otter-monitor-active/.github/workflows/action.yml@v1.0.0
+    uses: zgamelogic/data-otter-monitor-active/.github/workflows/action.yml@v1.0.2
     needs: build
     with:
+      applicationId: 1
       monitorId: 1
       active: false
   disable-monitor-2:
-    uses: zgamelogic/data-otter-monitor-active/.github/workflows/action.yml@v1.0.0
+    uses: zgamelogic/data-otter-monitor-active/.github/workflows/action.yml@v1.0.2
     needs: build
     with:
-      monitorId: 5
+      applicationId: 1
+      monitorId: 2
       active: false
   Kubernetes:
     runs-on: PiServer
@@ -66,16 +68,18 @@ jobs:
           sudo kubectl rollout restart deployment main-api
           sudo kubectl rollout status deployment main-api --timeout=600s
   enable-monitor:
-    uses: zgamelogic/data-otter-monitor-active/.github/workflows/action.yml@v1.0.0
+    uses: zgamelogic/data-otter-monitor-active/.github/workflows/action.yml@v1.0.2
     needs: [ build, disable-monitor, Kubernetes ]
     if: always()
     with:
+      applicationId: 1
       monitorId: 1
       active: true
   enable-monitor-2:
-    uses: zgamelogic/data-otter-monitor-active/.github/workflows/action.yml@v1.0.0
+    uses: zgamelogic/data-otter-monitor-active/.github/workflows/action.yml@v1.0.2
     needs: [ build, disable-monitor, Kubernetes ]
     if: always()
     with:
-      monitorId: 5
+      applicationId: 1
+      monitorId: 2
       active: true
