@@ -9,6 +9,4 @@ spec:
     - protocol: TCP
       port: 500
       targetPort: 500
-      nodePort: 30015
-  type: NodePort
-  
+  type: ClusterIP
