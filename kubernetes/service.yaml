@@ -7,8 +7,8 @@ spec:
     app: main-api
   ports:
     - protocol: TCP
-      port: 443
-      targetPort: 443
+      port: 500
+      targetPort: 500
       nodePort: 30015
   type: NodePort
   
