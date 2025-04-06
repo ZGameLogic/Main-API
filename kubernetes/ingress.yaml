@@ -35,13 +35,6 @@ spec:
                 name: main-api
                 port:
                   number: 500
-          - path: /downloads
-            pathType: Prefix
-            backend:
-              service:
-                name: main-api
-                port:
-                  number: 500
           - path: /ghosty
             pathType: Prefix
             backend:

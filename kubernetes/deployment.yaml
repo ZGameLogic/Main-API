@@ -19,10 +19,6 @@ spec:
         - name: api
           image: ghcr.io/zgamelogic/main-api:master
           imagePullPolicy: Always
-          volumeMounts:
-            - name: downloads-volume
-              mountPath: "/downloads"
-              readOnly: true
           env:
             - name: TZ
               value: "America/Chicago"
@@ -40,11 +36,6 @@ spec:
               scheme: HTTP
             initialDelaySeconds: 15
             periodSeconds: 30
-      volumes:
-        - name: downloads-volume
-          hostPath:
-            path: /home/Ben/front-end/downloads
-            type: Directory
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-secret
