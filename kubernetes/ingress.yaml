@@ -14,15 +14,15 @@ spec:
                 name: website
                 port:
                   number: 3000
-          - path: /projects
+          - path: /index.html
             pathType: Exact
             backend:
               service:
                 name: website
                 port:
                   number: 3000
-          - path: /sot
-            pathType: Exact
+          - path: /static
+            pathType: Prefix
             backend:
               service:
                 name: website
