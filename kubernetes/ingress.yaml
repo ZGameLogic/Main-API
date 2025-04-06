@@ -2,15 +2,68 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: api-ingress
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   rules:
     - host: "zgamelogic.com"
       http:
         paths:
           - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: website
+                port:
+                  number: 3000
+          - path: /projects
+            pathType: Exact
+            backend:
+              service:
+                name: website
+                port:
+                  number: 3000
+          - path: /sot
+            pathType: Exact
+            backend:
+              service:
+                name: website
+                port:
+                  number: 3000
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: main-api
+                port:
+                  number: 500
+          - path: /downloads
+            pathType: Prefix
+            backend:
+              service:
+                name: main-api
+                port:
+                  number: 500
+          - path: /ghosty
+            pathType: Prefix
+            backend:
+              service:
+                name: main-api
+                port:
+                  number: 500
+          - path: /github
+            pathType: Prefix
+            backend:
+              service:
+                name: main-api
+                port:
+                  number: 500
+          - path: /message
+            pathType: Prefix
+            backend:
+              service:
+                name: main-api
+                port:
+                  number: 500
+          - path: /api
             pathType: Prefix
             backend:
               service:
