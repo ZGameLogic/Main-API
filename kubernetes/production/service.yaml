@@ -7,6 +7,6 @@ spec:
     app: main-api
   ports:
     - protocol: TCP
-      port: 500
-      targetPort: 500
+      port: 8080
+      targetPort: 8080
   type: ClusterIP

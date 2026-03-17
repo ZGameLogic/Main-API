@@ -1,47 +1,47 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: api-ingress
+  name: main-api
 spec:
   rules:
     - host: "zgamelogic.com"
       http:
         paths:
-          - path: /health
+          - path: /actuator/health
             pathType: Prefix
             backend:
               service:
                 name: main-api
                 port:
-                  number: 500
+                  number: 8080
           - path: /ghosty
             pathType: Prefix
             backend:
               service:
                 name: main-api
                 port:
-                  number: 500
+                  number: 8080
           - path: /github
             pathType: Prefix
             backend:
               service:
                 name: main-api
                 port:
-                  number: 500
+                  number: 8080
           - path: /message
             pathType: Prefix
             backend:
               service:
                 name: main-api
                 port:
-                  number: 500
+                  number: 8080
           - path: /api
             pathType: Prefix
             backend:
               service:
                 name: main-api
                 port:
-                  number: 500
+                  number: 8080
           - path: /
             pathType: Prefix
             backend:

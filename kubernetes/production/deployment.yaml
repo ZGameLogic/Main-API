@@ -17,22 +17,22 @@ spec:
     spec:
       containers:
         - name: api
-          image: ghcr.io/zgamelogic/main-api:master
+          image: ghcr.io/zgamelogic/main-api:production
           imagePullPolicy: Always
           env:
             - name: TZ
               value: "America/Chicago"
           readinessProbe:
             httpGet:
-              path: /health
-              port: 8085
+              path: /actuator/health
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 15
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /health
-              port: 8085
+              path: /actuator//health
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 15
             periodSeconds: 30

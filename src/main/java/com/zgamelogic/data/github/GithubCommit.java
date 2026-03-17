@@ -1,13 +1,13 @@
 package com.zgamelogic.data.github;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
 
@@ -30,8 +30,8 @@ public class GithubCommit {
         }
 
         @Override
-        public GithubCommit deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-            JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        public GithubCommit deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) {
+            JsonNode node = deserializationContext.readTree(jsonParser);
             String authorName = node.get("commit").get("author").get("name").asText();
             String commitMessage = node.get("commit").get("message").asText();
             String url = node.get("html_url").asText();
