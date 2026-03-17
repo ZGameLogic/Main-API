@@ -11,7 +11,7 @@ jobs:
     uses: zgamelogic/github-actions/.github/workflows/kubernetes-deploy.yaml@0.0.1
     with:
       applicationId: 2
-      monitorIds: '2, 8'
+      monitorIds: '2,8'
       environment: production
       deploymentName: main-api
       imageName: main-api
