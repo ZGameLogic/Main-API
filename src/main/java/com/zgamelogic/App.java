@@ -1,25 +1,17 @@
-package com.zgamelogic.application;
+package com.zgamelogic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@SpringBootApplication(scanBasePackages = {
-        "com.zgamelogic.controllers",
-        "com.zgamelogic.services"
-})
-@EnableJpaRepositories("com.zgamelogic.data.database")
-@EntityScan("com.zgamelogic.data.database")
+@SpringBootApplication
 @EnableScheduling
 public class App {
-    public static void main(String[] args){
-        SpringApplication app = new SpringApplication(App.class);
-        app.run(args);
+    static void main(String[] args){
+        new SpringApplication(App.class).run(args);
     }
 
     @Bean

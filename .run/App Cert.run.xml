@@ -2,7 +2,7 @@
   <configuration default="false" name="App Cert" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" value="cert" />
     <module name="API" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.zgamelogic.application.App" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.zgamelogic.App" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
