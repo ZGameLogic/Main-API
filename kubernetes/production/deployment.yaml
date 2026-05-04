@@ -29,13 +29,6 @@ spec:
               scheme: HTTP
             initialDelaySeconds: 15
             periodSeconds: 5
-          livenessProbe:
-            httpGet:
-              path: /api/actuator/health
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 15
-            periodSeconds: 30
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-secret
