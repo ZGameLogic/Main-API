@@ -36,6 +36,13 @@ public class DashboardService {
 
     @Async
     public void getProjectsRichData(SseEmitter emitter){
+        /*
+        get a list of all github repos used in all of the projects in the dashboard
+        for each github repo
+            get the environments
+                for each environment get the deployment status
+
+         */
         // TODO get rich data and send it over when available
     }
 }
