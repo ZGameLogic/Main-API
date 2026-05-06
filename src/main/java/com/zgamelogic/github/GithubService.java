@@ -30,7 +30,11 @@ public class GithubService {
     @Cacheable("github repositories")
     public List<GithubRepository> getRepos(){
         GithubRepository[] repos = restClient.get()
-            .uri("/orgs/zgamelogic/repos")
+            .uri(uriBuilder -> uriBuilder
+                    .path("/orgs/zgamelogic/repos")
+                    .queryParam("per_page", 100)
+                .build()
+            )
             .retrieve()
             .body(GithubRepository[].class);
         return repos == null ? List.of() : List.of(repos);

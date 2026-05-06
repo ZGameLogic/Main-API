@@ -1,0 +1,2 @@
+### GET a list of repositories when creating a dashboard project
+GET localhost:8080/api/dashboard/github-repositories
