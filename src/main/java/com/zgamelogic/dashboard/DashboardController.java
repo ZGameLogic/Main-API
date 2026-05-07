@@ -1,9 +1,9 @@
 package com.zgamelogic.dashboard;
 
+import com.zgamelogic.dashboard.api.CreateDashboardProjectDTO;
+import com.zgamelogic.dashboard.database.DashboardProject;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
@@ -20,12 +20,17 @@ public class DashboardController {
     }
 
     @GetMapping("projects")
-    public List<Object> getProjects(){
+    public List<DashboardProject> getProjects(){
         return dashboardService.getDashboardProjects();
     }
 
     @GetMapping("projects/rich")
     public SseEmitter getProjectsRichData(){
-        return dashboardService.getDashboardProjectsRichData();
+        return dashboardService.getGitRichData();
+    }
+
+    @PostMapping("projects")
+    public DashboardProject createProject(@RequestBody CreateDashboardProjectDTO createDashboardProjectDTO){
+        return dashboardService.createProject(createDashboardProjectDTO);
     }
 }

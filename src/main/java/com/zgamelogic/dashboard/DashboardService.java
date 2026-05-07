@@ -1,5 +1,8 @@
 package com.zgamelogic.dashboard;
 
+import com.zgamelogic.dashboard.api.CreateDashboardProjectDTO;
+import com.zgamelogic.dashboard.database.DashboardProject;
+import com.zgamelogic.dashboard.database.DashboardProjectRepository;
 import com.zgamelogic.github.GithubService;
 import com.zgamelogic.github.data.GithubRepository;
 import org.springframework.context.annotation.Lazy;
@@ -8,41 +11,43 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DashboardService {
     private final GithubService githubService;
+    private final DashboardProjectRepository projectRepository;
     private final DashboardService selfProxy;
 
-    public DashboardService(@Lazy DashboardService selfProxy, GithubService githubService) {
+    public DashboardService(@Lazy DashboardService selfProxy, GithubService githubService, DashboardProjectRepository projectRepository) {
         this.selfProxy = selfProxy;
         this.githubService = githubService;
+        this.projectRepository = projectRepository;
     }
 
     public List<String> getGihubRepositoryList(){
         return githubService.getRepos().stream().map(GithubRepository::name).toList();
     }
 
-    public List<Object> getDashboardProjects(){
-        // TODO implement
-        return null;
+    public List<DashboardProject> getDashboardProjects(){
+        return projectRepository.findAll();
     }
 
-    public SseEmitter getDashboardProjectsRichData(){
+    public SseEmitter getGitRichData(){
         SseEmitter emitter = new SseEmitter();
-        selfProxy.getProjectsRichData(emitter);
+        selfProxy.getGitRichData(emitter);
         return emitter;
     }
 
     @Async
-    public void getProjectsRichData(SseEmitter emitter){
-        /*
-        get a list of all github repos used in all of the projects in the dashboard
-        for each github repo
-            get the environments
-                for each environment get the deployment status
+    public void getGitRichData(SseEmitter emitter){
+        Set<Long> githubRepoLinks = projectRepository.findAllGithubRepositoryLinks();
+        Set<Long> githubProjectLinks = projectRepository.findAllGithubProjectLinks();
+        // TODO implement
+        emitter.complete();
+    }
 
-         */
-        // TODO get rich data and send it over when available
+    public DashboardProject createProject(CreateDashboardProjectDTO createDashboardProjectDTO) {
+        return projectRepository.save(new DashboardProject(createDashboardProjectDTO));
     }
 }
