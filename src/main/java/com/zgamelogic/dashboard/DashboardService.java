@@ -49,6 +49,13 @@ public class DashboardService {
     public void getGitRichData(SseEmitter emitter){
         List<GithubRepository> githubRepositories = githubService.getRepos();
         Set<Long> githubRepoLinks = projectRepository.findAllGithubRepositoryLinks();
+        githubRepositories.stream().filter(repo -> githubRepoLinks.contains(repo.id())).forEach(repo -> {
+            try {
+                emitter.send(new EmitterMessage(EmitterMessageType.DATA, repo));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         CompletableFuture<Void>[] tasks = githubRepositories.stream()
             .filter(repo -> githubRepoLinks.contains(repo.id()))
             .map(repo -> selfProxy.getGitRepoRichData(emitter, repo))
