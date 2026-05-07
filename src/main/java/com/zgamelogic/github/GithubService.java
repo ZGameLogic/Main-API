@@ -29,7 +29,6 @@ public class GithubService {
             .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + githubToken)
             .defaultHeader("X-GitHub-Api-Version", "2026-03-10")
             .build();
-        System.out.println(getRepos());
     }
 
     public void clearGithubCaches(){
