@@ -6,5 +6,6 @@ public record CreateDashboardProjectDTO(
     String name,
     String description,
     Set<Long> githubProjectIds,
-    Set<Long> githubRepoIds
+    Set<Long> githubRepoIds,
+    Set<String> aspects
 ) {}

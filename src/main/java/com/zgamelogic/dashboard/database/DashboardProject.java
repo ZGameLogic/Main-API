@@ -37,11 +37,18 @@ public class DashboardProject {
     @Column(name = "github_repository_id")
     private Set<Long> githubRepositoryLinks;
 
+    @ElementCollection
+    @CollectionTable(name = "additional_project_aspects", schema = "api",
+            joinColumns = @JoinColumn(name = "project_id"))
+    @Column(name = "aspect")
+    private Set<String> additionalAspects;
+
     public DashboardProject(CreateDashboardProjectDTO createDashboardProjectDTO) {
         this.id = UUID.randomUUID();
         this.description = createDashboardProjectDTO.description();
         this.name = createDashboardProjectDTO.name();
         this.githubProjectLinks = createDashboardProjectDTO.githubProjectIds();
         this.githubRepositoryLinks = createDashboardProjectDTO.githubRepoIds();
+        this.additionalAspects = createDashboardProjectDTO.aspects();
     }
 }

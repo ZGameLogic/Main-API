@@ -84,6 +84,8 @@ public class DashboardService {
             , () -> richGithubRepo.addEnvironment(env.name(), "unknown"))
         );
 
+        richGithubRepo.setLanguages(githubService.getRepoLanguages(repo));
+
         try {
             emitter.send(new EmitterMessage(EmitterMessageType.RICH_DATA, richGithubRepo));
         } catch (IOException e) {
