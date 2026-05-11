@@ -1,4 +1,8 @@
 package com.zgamelogic.dashboard.api;
 
-public record EmitterMessage(EmitterMessageType type, Object body) {
-}
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+public record EmitterMessage(
+    EmitterMessageType type,
+    @JsonInclude(JsonInclude.Include.NON_NULL) Object body
+) {}
