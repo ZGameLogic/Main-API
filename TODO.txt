@@ -1,0 +1,4 @@
+TODO Get and pass through current release version
+TODO Add a way to add maven links for packages
+TODO Link Data Otter to projects to get monitoring data on said project
+TODO Link Github projects to dashboard project to get some project data
