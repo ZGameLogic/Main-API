@@ -85,7 +85,7 @@ public class DashboardService {
         );
 
         richGithubRepo.setLanguages(githubService.getRepoLanguages(repo));
-
+        githubService.getRepoReleases(repo).stream().findFirst().ifPresent(richGithubRepo::setRelease);
         try {
             emitter.send(new EmitterMessage(EmitterMessageType.RICH_DATA, richGithubRepo));
         } catch (IOException e) {
