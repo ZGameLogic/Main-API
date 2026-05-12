@@ -1,11 +1,10 @@
 package com.zgamelogic.dashboard;
 
-import com.zgamelogic.dashboard.api.CreateDashboardProjectDTO;
-import com.zgamelogic.dashboard.api.EmitterMessage;
-import com.zgamelogic.dashboard.api.EmitterMessageType;
-import com.zgamelogic.dashboard.api.GithubRichRepositoryDTO;
+import com.zgamelogic.dashboard.api.*;
 import com.zgamelogic.dashboard.database.DashboardProject;
 import com.zgamelogic.dashboard.database.DashboardProjectRepository;
+import com.zgamelogic.dataotter.DataOtterApplication;
+import com.zgamelogic.dataotter.DataOtterService;
 import com.zgamelogic.github.GithubService;
 import com.zgamelogic.github.data.GithubEnvironment;
 import com.zgamelogic.github.data.GithubRepository;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -22,12 +22,14 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class DashboardService {
     private final GithubService githubService;
+    private final DataOtterService  dataOtterService;
     private final DashboardProjectRepository projectRepository;
     private final DashboardService selfProxy;
 
-    public DashboardService(@Lazy DashboardService selfProxy, GithubService githubService, DashboardProjectRepository projectRepository) {
+    public DashboardService(@Lazy DashboardService selfProxy, GithubService githubService, DataOtterService dataOtterService, DashboardProjectRepository projectRepository) {
         this.selfProxy = selfProxy;
         this.githubService = githubService;
+        this.dataOtterService = dataOtterService;
         this.projectRepository = projectRepository;
     }
 
@@ -47,28 +49,36 @@ public class DashboardService {
 
     @Async
     public void getGitRichData(SseEmitter emitter){
+        List<CompletableFuture<Void>> tasks = new ArrayList<>();
+
+        // Github section
         List<GithubRepository> githubRepositories = githubService.getRepos();
         Set<Long> githubRepoLinks = projectRepository.findAllGithubRepositoryLinks();
-        githubRepositories.stream().filter(repo -> githubRepoLinks.contains(repo.id())).forEach(repo -> {
-            try {
-                emitter.send(new EmitterMessage(EmitterMessageType.DATA, repo));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        CompletableFuture<Void>[] tasks = githubRepositories.stream()
+        githubRepositories.stream().filter(repo -> githubRepoLinks.contains(repo.id())).forEach(repo ->
+            sendEmitterMessage(emitter, new EmitterMessage(EmitterMessageType.DATA, repo))
+        );
+        tasks.addAll(githubRepositories.stream()
             .filter(repo -> githubRepoLinks.contains(repo.id()))
             .map(repo -> selfProxy.getGitRepoRichData(emitter, repo))
-            .toArray(CompletableFuture[]::new);
+            .toList());
 
-        CompletableFuture.allOf(tasks).whenComplete((_, _) -> {
-            try {
-                emitter.send(new EmitterMessage(EmitterMessageType.DONE, null));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        // DataOtter section
+        Set<Long> dataOtterLinks = projectRepository.findAllDataOtterLinks();
+        tasks.addAll(dataOtterLinks.stream()
+            .map(applicationId -> selfProxy.getMonitoringRichData(emitter, applicationId))
+            .toList());
+
+        CompletableFuture.allOf(tasks.toArray(new CompletableFuture[]{})).whenComplete((_, _) -> {
+            sendEmitterMessage(emitter, new EmitterMessage(EmitterMessageType.DONE, null));
             emitter.complete();
         });
+    }
+
+    @Async
+    protected CompletableFuture<Void> getMonitoringRichData(SseEmitter emitter, long applicationId){
+        DataOtterApplication application = dataOtterService.getDataOtterApplication(applicationId);
+        if(application != null) sendEmitterMessage(emitter, new EmitterMessage(EmitterMessageType.MONITOR_DATA, new DataOtterRichApplicationDTO(application.id(), application.status())));
+        return CompletableFuture.completedFuture(null);
     }
 
     @Async
@@ -86,12 +96,14 @@ public class DashboardService {
 
         richGithubRepo.setLanguages(githubService.getRepoLanguages(repo));
         githubService.getRepoReleases(repo).stream().findFirst().ifPresent(richGithubRepo::setRelease);
-        try {
-            emitter.send(new EmitterMessage(EmitterMessageType.RICH_DATA, richGithubRepo));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        sendEmitterMessage(emitter, new EmitterMessage(EmitterMessageType.RICH_DATA, richGithubRepo));
         return CompletableFuture.completedFuture(null);
+    }
+
+    private void sendEmitterMessage(SseEmitter emitter, EmitterMessage message){
+        try {
+            emitter.send(message);
+        } catch (IOException _) {}
     }
 
     public DashboardProject createProject(CreateDashboardProjectDTO createDashboardProjectDTO) {

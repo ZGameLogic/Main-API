@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -42,6 +43,12 @@ public class DashboardProject {
             joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "aspect")
     private Set<String> additionalAspects;
+
+    @ElementCollection
+    @CollectionTable(name = "dataotter_application_link", schema = "api",
+            joinColumns = @JoinColumn(name = "project_id"))
+    @Column(name = "application_id")
+    private List<Long> dataOtterProjectLinks;
 
     public DashboardProject(CreateDashboardProjectDTO createDashboardProjectDTO) {
         this.id = UUID.randomUUID();
