@@ -101,4 +101,13 @@ public class GithubService {
             .body(GithubEnvironmentResponse.class);
         return environments.environments();
     }
+
+    @Cacheable("github repository releases")
+    public List<GithubRelease> getRepoReleases(GithubRepository githubRepository){
+        GithubRelease[] releases = restClient.get()
+                .uri("/repos/zgamelogic/" + githubRepository.name() + "/releases")
+                .retrieve()
+                .body(GithubRelease[].class);
+        return releases == null ? List.of() : List.of(releases);
+    }
 }

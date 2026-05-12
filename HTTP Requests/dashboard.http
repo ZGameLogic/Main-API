@@ -8,12 +8,12 @@ GET localhost:8080/api/dashboard/projects
 GET localhost:8080/api/dashboard/projects/rich
 
 ### Create a project
-POST localhost:8080/api/dashboard/projects
+POST https://zgamelogic.com/api/dashboard/projects
 Content-Type: application/json
 
 {
-  "name": "My Dashboard Project",
-  "description": "A project to track my GitHub repositories",
-  "githubRepoIds": [],
-  "githubProjectIds": []
+  "name": "Cobble",
+  "description": "A fun game project that allows users to build towns and defend them.",
+  "aspects": ["Spring", "Kubernetes"],
+  "githubRepoIds": [1008634134,1008725971]
 }
