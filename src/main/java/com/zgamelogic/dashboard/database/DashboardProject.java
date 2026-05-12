@@ -50,6 +50,12 @@ public class DashboardProject {
     @Column(name = "application_id")
     private List<Long> dataOtterProjectLinks;
 
+    @ElementCollection
+    @CollectionTable(name = "maven_project_link", schema = "api",
+            joinColumns = @JoinColumn(name = "project_id"))
+    @Column(name = "maven_url")
+    private List<String> mavenUrls;
+
     public DashboardProject(CreateDashboardProjectDTO createDashboardProjectDTO) {
         this.id = UUID.randomUUID();
         this.description = createDashboardProjectDTO.description();
