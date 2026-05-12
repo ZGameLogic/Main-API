@@ -1,0 +1,19 @@
+### GET a list of repositories when creating a dashboard project
+GET localhost:8080/api/dashboard/github-repositories
+
+### Get projects
+GET localhost:8080/api/dashboard/projects
+
+### Get Rich projects
+GET localhost:8080/api/dashboard/projects/rich
+
+### Create a project
+POST localhost:8080/api/dashboard/projects
+Content-Type: application/json
+
+{
+  "name": "My Dashboard Project",
+  "description": "A project to track my GitHub repositories",
+  "githubRepoIds": [],
+  "githubProjectIds": []
+}
