@@ -1,2 +1,2 @@
 ### GET request to example server
-GET https://api.github.com/orgs/zgamelogic/repos?per_page=100
+GET https://api.github.com/orgs/zgamelogic/projectsV2

@@ -7,6 +7,7 @@ import com.zgamelogic.dataotter.DataOtterApplication;
 import com.zgamelogic.dataotter.DataOtterService;
 import com.zgamelogic.github.GithubService;
 import com.zgamelogic.github.data.GithubEnvironment;
+import com.zgamelogic.github.data.GithubProject;
 import com.zgamelogic.github.data.GithubRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
@@ -51,7 +52,7 @@ public class DashboardService {
     public void getGitRichData(SseEmitter emitter){
         List<CompletableFuture<Void>> tasks = new ArrayList<>();
 
-        // Github section
+        // Github repository section
         List<GithubRepository> githubRepositories = githubService.getRepos();
         Set<Long> githubRepoLinks = projectRepository.findAllGithubRepositoryLinks();
         githubRepositories.stream().filter(repo -> githubRepoLinks.contains(repo.id())).forEach(repo ->
@@ -60,6 +61,17 @@ public class DashboardService {
         tasks.addAll(githubRepositories.stream()
             .filter(repo -> githubRepoLinks.contains(repo.id()))
             .map(repo -> selfProxy.getGitRepoRichData(emitter, repo))
+            .toList());
+
+        //Github project section
+        List<GithubProject> githubProjects = githubService.getProjects();
+        Set<Long> githubProjectLinks = projectRepository.findAllGithubProjectLinks();
+        githubProjects.stream().filter(project -> githubProjectLinks.contains(project.id())).forEach(project ->
+            sendEmitterMessage(emitter, new EmitterMessage(EmitterMessageType.PROJECT_DATA, project))
+        );
+        tasks.addAll(githubProjects.stream()
+            .filter(project -> githubProjectLinks.contains(project.id()))
+            .map(project -> selfProxy.getGithubProjectsData(emitter, project))
             .toList());
 
         // DataOtter section
@@ -78,6 +90,11 @@ public class DashboardService {
     protected CompletableFuture<Void> getMonitoringRichData(SseEmitter emitter, long applicationId){
         DataOtterApplication application = dataOtterService.getDataOtterApplication(applicationId);
         if(application != null) sendEmitterMessage(emitter, new EmitterMessage(EmitterMessageType.MONITOR_DATA, new DataOtterRichApplicationDTO(application.id(), application.status())));
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Async
+    protected CompletableFuture<Void> getGithubProjectsData(SseEmitter emitter, GithubProject githubProject){
         return CompletableFuture.completedFuture(null);
     }
 

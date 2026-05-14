@@ -12,8 +12,8 @@ POST https://zgamelogic.com/api/dashboard/projects
 Content-Type: application/json
 
 {
-  "name": "Cobble",
-  "description": "A fun game project that allows users to build towns and defend them.",
-  "aspects": ["Spring", "Kubernetes"],
-  "githubRepoIds": [1008634134,1008725971]
+  "name": "Spring Boot Starter Discord",
+  "description": "A maven library to easily integrate Discord bots (using JDA) into Spring Boot applications.",
+  "aspects": ["Spring", "Maven"],
+  "githubRepoIds": [753361694]
 }
