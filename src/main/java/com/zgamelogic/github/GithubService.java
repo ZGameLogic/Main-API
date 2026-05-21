@@ -110,4 +110,18 @@ public class GithubService {
                 .body(GithubRelease[].class);
         return releases == null ? List.of() : List.of(releases);
     }
+
+    @Cacheable("github project issues")
+    public void getProjectIssues(GithubProject project){
+        long number = project.number();
+        String query = "is:OPEN";
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("/orgs/zgamelogic/projectsV2/" + number + "/items")
+                .queryParam("q", query)
+                .queryParam("per_page", "100")
+                .build(true)
+                .toUri();
+        // TODO paginate and get them ALL
+    }
 }
