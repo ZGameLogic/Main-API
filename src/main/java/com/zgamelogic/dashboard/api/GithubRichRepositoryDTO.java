@@ -1,6 +1,7 @@
 package com.zgamelogic.dashboard.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.zgamelogic.github.data.GithubMilestone;
 import com.zgamelogic.github.data.GithubRelease;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class GithubRichRepositoryDTO {
     private long id;
     private List<GithubRichEnvironmentDTO> environments;
     private GithubRelease release;
+    private List<GithubMilestone> milestones;
     private Map<String, Long> languages;
 
     public GithubRichRepositoryDTO(long id) {

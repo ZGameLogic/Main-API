@@ -113,6 +113,7 @@ public class DashboardService {
 
         richGithubRepo.setLanguages(githubService.getRepoLanguages(repo));
         githubService.getRepoReleases(repo).stream().findFirst().ifPresent(richGithubRepo::setRelease);
+        richGithubRepo.setMilestones(githubService.getRepositoryMilestones(repo));
         sendEmitterMessage(emitter, new EmitterMessage(EmitterMessageType.RICH_DATA, richGithubRepo));
         return CompletableFuture.completedFuture(null);
     }

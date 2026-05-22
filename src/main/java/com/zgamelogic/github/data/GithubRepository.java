@@ -16,6 +16,8 @@ public record GithubRepository(
         String deploymentsUrl,
         @JsonProperty("releases_url")
         String releasesUrl,
+        @JsonProperty("milestones_url")
+        String milestonesUrl,
         String description,
         long id,
         @JsonProperty("stargazers_count")
