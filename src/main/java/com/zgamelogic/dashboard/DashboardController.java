@@ -2,7 +2,9 @@ package com.zgamelogic.dashboard;
 
 import com.zgamelogic.dashboard.api.CreateDashboardProjectDTO;
 import com.zgamelogic.dashboard.database.DashboardProject;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -10,9 +12,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("dashboard")
-@AllArgsConstructor
 public class DashboardController {
     private final DashboardService dashboardService;
+    private final String apiKey;
+
+    public DashboardController(DashboardService dashboardService, @Value("${api-key}") String apiKey) {
+        this.dashboardService = dashboardService;
+        this.apiKey = apiKey;
+    }
+
 
     @GetMapping("/github-repositories")
     public List<String> getRepositoryList(){
@@ -30,7 +38,8 @@ public class DashboardController {
     }
 
     @PostMapping("projects")
-    public DashboardProject createProject(@RequestBody CreateDashboardProjectDTO createDashboardProjectDTO){
-        return dashboardService.createProject(createDashboardProjectDTO);
+    public ResponseEntity<DashboardProject> createProject(@RequestBody CreateDashboardProjectDTO createDashboardProjectDTO, @RequestHeader(required = false) String key){
+        if(!apiKey.equals(key)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.ok().body(dashboardService.createProject(createDashboardProjectDTO));
     }
 }
