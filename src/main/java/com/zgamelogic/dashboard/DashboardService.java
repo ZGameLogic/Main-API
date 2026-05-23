@@ -34,8 +34,8 @@ public class DashboardService {
         this.projectRepository = projectRepository;
     }
 
-    public List<String> getGihubRepositoryList(){
-        return githubService.getRepos().stream().map(GithubRepository::name).toList();
+    public List<GitHubNameId> getGihubRepositoryList(){
+        return githubService.getRepos().stream().map(repo -> new GitHubNameId(repo.name(), repo.id())).toList();
     }
 
     public List<DashboardProject> getDashboardProjects(){
@@ -126,5 +126,13 @@ public class DashboardService {
 
     public DashboardProject createProject(CreateDashboardProjectDTO createDashboardProjectDTO) {
         return projectRepository.save(new DashboardProject(createDashboardProjectDTO));
+    }
+
+    public List<GitHubNameId> getGihubProjectList() {
+        return githubService.getProjects().stream().map(project -> new GitHubNameId(project.title(), project.id())).toList();
+    }
+
+    public List<GitHubNameId> getGihubAspectList() {
+        return projectRepository.findAllAdditionalAspects().stream().map(aspect -> new GitHubNameId(aspect, aspect)).toList();
     }
 }

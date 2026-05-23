@@ -17,4 +17,7 @@ public interface DashboardProjectRepository extends JpaRepository<DashboardProje
 
     @Query("select distinct repoId from DashboardProject dp join dp.githubProjectLinks repoId")
     Set<Long> findAllGithubProjectLinks();
+
+    @Query("select distinct aspect from DashboardProject dp join dp.additionalAspects aspect")
+    Set<String> findAllAdditionalAspects();
 }

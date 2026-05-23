@@ -1,6 +1,7 @@
 package com.zgamelogic.dashboard;
 
 import com.zgamelogic.dashboard.api.CreateDashboardProjectDTO;
+import com.zgamelogic.dashboard.api.GitHubNameId;
 import com.zgamelogic.dashboard.database.DashboardProject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,19 @@ public class DashboardController {
         this.apiKey = apiKey;
     }
 
-
     @GetMapping("/github-repositories")
-    public List<String> getRepositoryList(){
+    public List<GitHubNameId> getRepositoryList(){
         return dashboardService.getGihubRepositoryList();
+    }
+
+    @GetMapping("/github-projects")
+    public List<GitHubNameId> getProjectList(){
+        return dashboardService.getGihubProjectList();
+    }
+
+    @GetMapping("/github-aspects")
+    public List<GitHubNameId> getAspectList(){
+        return dashboardService.getGihubAspectList();
     }
 
     @GetMapping("projects")
