@@ -26,6 +26,9 @@ public class DashboardProject {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "favorite")
+    private Boolean favorite;
+
     @ElementCollection
     @CollectionTable(name = "github_project_links", schema = "api",
             joinColumns = @JoinColumn(name = "project_id"))
@@ -63,5 +66,6 @@ public class DashboardProject {
         this.githubProjectLinks = createDashboardProjectDTO.githubProjectIds();
         this.githubRepositoryLinks = createDashboardProjectDTO.githubRepoIds();
         this.additionalAspects = createDashboardProjectDTO.aspects();
+        this.favorite = createDashboardProjectDTO.favorite();
     }
 }
