@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "dashboard_projects", schema = "api")
+@Table(name = "dashboard_projects")
 public class DashboardProject {
     @Id
     @Column(name = "id", nullable = false)
@@ -30,31 +30,31 @@ public class DashboardProject {
     private Boolean favorite;
 
     @ElementCollection
-    @CollectionTable(name = "github_project_links", schema = "api",
+    @CollectionTable(name = "github_project_links",
             joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "github_project_id")
     private Set<Long> githubProjectLinks;
 
     @ElementCollection
-    @CollectionTable(name = "github_repository_links", schema = "api",
+    @CollectionTable(name = "github_repository_links",
             joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "github_repository_id")
     private Set<Long> githubRepositoryLinks;
 
     @ElementCollection
-    @CollectionTable(name = "additional_project_aspects", schema = "api",
+    @CollectionTable(name = "additional_project_aspects",
             joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "aspect")
     private Set<String> additionalAspects;
 
     @ElementCollection
-    @CollectionTable(name = "dataotter_application_link", schema = "api",
+    @CollectionTable(name = "dataotter_application_link",
             joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "application_id")
     private List<Long> dataOtterProjectLinks;
 
     @ElementCollection
-    @CollectionTable(name = "maven_project_link", schema = "api",
+    @CollectionTable(name = "maven_project_link",
             joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "maven_url")
     private List<String> mavenUrls;
